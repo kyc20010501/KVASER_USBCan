@@ -1,22 +1,21 @@
-'''
+"""
 接收 Can 报文
-'''
+"""
 
 import sys
 
 from canlib import canlib
 
-
-def print_frame(frame):
-    '''输出信息'''
-    if (frame.flags & canlib.canMSG_ERROR_FRAME != 0):
+def print_frame(the_frame):
+    """输出信息"""
+    if the_frame.flags & canlib.canMSG_ERROR_FRAME != 0:
         print("***ERROR FRAME RECEIVED***")
     else:
         print("{id:0>8X}  {dlc}  {data}  {timestamp}".format(
-            id=frame.id,
-            dlc=frame.dlc,
-            data=' '.join('%02x' % i for i in frame.data),
-            timestamp=frame.timestamp
+            id=the_frame.id,
+            dlc=the_frame.dlc,
+            data=' '.join('%02x' % i for i in the_frame.data),
+            timestamp=the_frame.timestamp
         ))
 
 
@@ -47,13 +46,12 @@ if __name__ == '__main__':
         try:
             frame = ch.read(timeout=50)
             print_frame(frame)
-        except(canlib.canNoMsg) as ex:
+        except canlib.canNoMsg as ex:
             pass
-        except (canlib.canError) as ex:
+        except canlib.canError as ex:
             print(ex)
             finished = True
 
     # 关闭通道
     ch.busOff()
     ch.close()
-
