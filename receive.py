@@ -8,7 +8,7 @@ from canlib import canlib
 
 
 def print_frame(frame):
-    """Prints a message to screen"""
+    '''输出信息'''
     if (frame.flags & canlib.canMSG_ERROR_FRAME != 0):
         print("***ERROR FRAME RECEIVED***")
     else:
@@ -21,11 +21,10 @@ def print_frame(frame):
 
 
 if __name__ == '__main__':
-    # Initialization
+    # 初始化
     receive_channel = 0
 
-    # Specific CANlib channel number may be specified as first argument
-    # 可以将特定的 CANlib 通道号指定为第一个参数
+    # 设定canlib通道
     if len(sys.argv) == 2:
         receive_channel = int(sys.argv[1])
 
@@ -34,15 +33,13 @@ if __name__ == '__main__':
                                 chdata.card_upc_no,
                                 chdata.card_serial_no))
 
-    # Open CAN channel, virtual channels are considered ok to use
-    # 开放CAN通道，虚拟通道被认为可以使用
+    # 开启CAN通道，可使用虚拟通道
     ch = canlib.openChannel(receive_channel, canlib.canOPEN_ACCEPT_VIRTUAL)
 
     print("Setting bitrate to 500 kb/s")
     ch.setBusParams(canlib.canBITRATE_500K)
     ch.busOn()
 
-    # Start listening for messages
     # 开始监听消息
     finished = False
     print("   ID    DLC DATA                     Timestamp")
@@ -56,7 +53,7 @@ if __name__ == '__main__':
             print(ex)
             finished = True
 
-    # Channel teardown
+    # 关闭通道
     ch.busOff()
     ch.close()
 

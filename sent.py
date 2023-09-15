@@ -8,25 +8,24 @@ import time
 from canlib import canlib, Frame
 
 sent_channel = 0
-# Specific CANlib channel number may be specified as first argument
+# 设定发送通道
 if len(sys.argv) == 2:
     sent_channel = int(sys.argv[1])
 
 print("Opening channel %d" % sent_channel)
 
-# Use ChannelData to get some information about the selected channel
-# 使用通道数据获取有关所选通道的一些信息
+# 使用’ChannelData‘获取所选通道信息
 chd = canlib.ChannelData(sent_channel)
 print("%d. %s (%s / %s) " % (sent_channel,
                              chd.channel_name,
                              chd.card_upc_no,
                              chd.card_serial_no))
 
-# If the channel have a custom name, print it
+# 输出通道自定义名称（如果有的话
 if chd.custom_name != '':
     print("Customized Channel Name: %s " % chd.custom_name)
 
-# Open CAN channel, virtual channels are considered ok to use
+# 开启can通道，虚拟通道可使用
 ch = canlib.openChannel(sent_channel, canlib.canOPEN_ACCEPT_VIRTUAL)
 
 print("Setting bitrate to 500 kb/s")
