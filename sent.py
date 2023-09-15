@@ -1,6 +1,6 @@
-'''
+"""
 发送 Can 报文
-'''
+"""
 
 import sys
 import time
@@ -34,7 +34,7 @@ ch.setBusParams(canlib.canBITRATE_500K)
 print("Going on bus")
 ch.busOn()
 
-while True:
+for i in 100:
     print("Sending a message")
     frame = Frame(id_=123,
                   data=[1, 2, 3, 4, 5, 6, 7, 8],
